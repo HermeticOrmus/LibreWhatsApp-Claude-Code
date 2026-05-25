@@ -1,0 +1,50 @@
+{
+  "_comment": "Copy this to ~/.claude/wa-registry.json and fill in your own values. That file is read by /pull, /push, and /grab to resolve human-readable aliases to WhatsApp ids. It stays on your machine and is never committed.",
+
+  "provider": {
+    "type": "periskope",
+    "_note_type": "The reference adapter is 'periskope'. Any provider that exposes list-messages and send-message can be wired the same way (see plugins/pull/skills/pull.md, section 'Wiring a new provider'). The logic in these skills is provider-agnostic; the provider is yours to choose.",
+    "api_key_env": "PERISKOPE_API_KEY",
+    "org_phone": "<YOUR_WHATSAPP_NUMBER>",
+    "_note_org_phone": "The number your provider account sends from. Recipients see this number's saved name. Digits only, country code, no +.",
+    "default_sender_phone": "<YOUR_WHATSAPP_NUMBER>",
+    "_note_sender_phone": "Used as the x-phone header (Periskope) when reading. The provider only returns messages this number participated in. Pick the number that is actually in the chats you read. See the x-phone gotcha in pull.md."
+  },
+
+  "targets": {
+    "me": {
+      "channel": "wa",
+      "id": "<YOUR_PHONE>@c.us",
+      "type": "dm",
+      "note": "Your own DM. Useful as a notes-to-self / notification target."
+    },
+    "team": {
+      "channel": "wa",
+      "id": "<GROUP_ID>@g.us",
+      "type": "group",
+      "style": "concise, fact-based, lead with the outcome",
+      "note": "A group chat. Group ids end in @g.us."
+    },
+    "teammate": {
+      "channel": "wa",
+      "id": "<THEIR_PHONE>@c.us",
+      "type": "dm",
+      "style": "short, direct",
+      "note": "A one-to-one chat. DM ids end in @c.us."
+    }
+  },
+
+  "inference": {
+    "_comment": "Optional. When /pull or /push is invoked without an explicit target, the skill scores known targets against the current conversation. Add keyword hints here to bias resolution.",
+    "default_target": "team",
+    "signals": [
+      { "match": "deploy|shipped|done|PR #", "target": "team", "weight": 8 },
+      { "match": "personal|family", "target": "me", "weight": 6 }
+    ]
+  },
+
+  "sender_resolution": {
+    "_comment": "Optional. Maps a sender id to a display name for readable /pull output. Without an entry, the raw id is shown.",
+    "<YOUR_PHONE>@c.us": "Me"
+  }
+}

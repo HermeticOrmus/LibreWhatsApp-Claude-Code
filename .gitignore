@@ -1,0 +1,14 @@
+# Never commit a populated registry — it holds real ids and provider config.
+wa-registry.json
+*/wa-registry.json
+
+# Skill runtime state
+state/
+**/state/
+
+# Local env
+.env
+.env.*
+
+# OS noise
+.DS_Store
