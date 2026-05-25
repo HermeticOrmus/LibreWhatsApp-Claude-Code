@@ -88,4 +88,4 @@ PRs welcome, especially: provider adapters beyond Periskope, the Discord and ema
 
 ## License
 
-MIT © 2026 [Diego Bodart](https://github.com/HermeticOrmus) — see [LICENSE](LICENSE).
+MIT © 2026 [Diego Bodart](https://github.com/HermeticOrmus) — see [LICENSE](LICENSE). Built under the [Gold Hat principle](GOLD_HAT.md).
