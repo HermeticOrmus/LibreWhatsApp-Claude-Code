@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="https://ormus.solutions/mascot/chain_braces_to_swan.gif" alt="LibreWhatsApp Claude Code" width="128" style="image-rendering: pixelated;" />
+</p>
+
 <h1 align="center">LibreWhatsApp Claude Code</h1>
 
 <p align="center">
@@ -5,10 +9,10 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/HermeticOrmus/LibreWhatsApp-Claude-Code/stargazers"><img src="https://img.shields.io/github/stars/HermeticOrmus/LibreWhatsApp-Claude-Code?style=flat-square&color=25D366" alt="Stars" /></a>
-  <a href="https://github.com/HermeticOrmus/LibreWhatsApp-Claude-Code/blob/main/LICENSE"><img src="https://img.shields.io/github/license/HermeticOrmus/LibreWhatsApp-Claude-Code?style=flat-square&color=25D366" alt="License" /></a>
-  <img src="https://img.shields.io/badge/Messaging-25D366?style=flat-square" alt="Messaging" />
-  <img src="https://img.shields.io/badge/Claude_Code-25D366?style=flat-square&logo=anthropic&logoColor=white" alt="Claude Code" />
+  <a href="https://github.com/HermeticOrmus/LibreWhatsApp-Claude-Code/stargazers"><img src="https://img.shields.io/github/stars/HermeticOrmus/LibreWhatsApp-Claude-Code?style=flat-square&color=aa8142" alt="Stars" /></a>
+  <a href="https://github.com/HermeticOrmus/LibreWhatsApp-Claude-Code/blob/main/LICENSE"><img src="https://img.shields.io/github/license/HermeticOrmus/LibreWhatsApp-Claude-Code?style=flat-square&color=aa8142" alt="License" /></a>
+  <img src="https://img.shields.io/badge/Messaging-aa8142?style=flat-square&logo=whatsapp&logoColor=white" alt="Messaging" />
+  <img src="https://img.shields.io/badge/Claude_Code-aa8142?style=flat-square&logo=anthropic&logoColor=white" alt="Claude Code" />
 </p>
 
 ---
@@ -84,4 +88,4 @@ PRs welcome, especially: provider adapters beyond Periskope, the Discord and ema
 
 ## License
 
-MIT © 2026 [Diego Bodart](https://github.com/HermeticOrmus).
+MIT © 2026 [Diego Bodart](https://github.com/HermeticOrmus) — see [LICENSE](LICENSE).

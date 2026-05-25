@@ -1,0 +1,40 @@
+name: Bug report
+description: Something does not work as documented.
+labels: ["bug"]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: What you did and what went wrong. Do not paste real phone numbers, ids, or keys.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expected
+    validations:
+      required: true
+  - type: dropdown
+    id: plugin
+    attributes:
+      label: Plugin
+      options:
+        - pull
+        - push
+        - grab
+        - transcribe
+        - setup / registry
+    validations:
+      required: true
+  - type: input
+    id: provider
+    attributes:
+      label: Provider
+      description: Periskope, or the provider you wired.
+      placeholder: Periskope
+  - type: input
+    id: env
+    attributes:
+      label: OS and Claude Code version
+      placeholder: macOS 15, Claude Code 1.x

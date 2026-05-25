@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Questions and ideas
+    url: https://github.com/HermeticOrmus/LibreWhatsApp-Claude-Code/discussions
+    about: Ask questions, share setups, or propose ideas in Discussions.
