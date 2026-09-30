@@ -2,6 +2,12 @@
 
 Turn WhatsApp voice notes into text with a local Whisper install, so `/pull` and `/push` can work with voice messages. Audio stays on your machine.
 
+## Contents
+
+- **Command**: `/transcribe`
+- **Skill**: `voice-transcribe`; `/pull` hands voice notes to it
+- **Script**: `bin/wa-transcribe.sh`, which runs whisper.cpp (`whisper-cli` or `main`) or the OpenAI `whisper` CLI and prints the transcript
+
 ## What it does
 
 WhatsApp voice notes arrive as audio with no text. This downloads the audio and runs it through a local Whisper binary, then hands the transcript back to the workflow. No cloud transcription service is used.
