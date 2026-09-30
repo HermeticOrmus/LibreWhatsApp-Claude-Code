@@ -2,6 +2,14 @@
 
 Channel-aware message pull for Claude Code. Fetch recent messages from WhatsApp (or Discord/email), see only what is new since last time, with verbatim quoting.
 
+## Contents
+
+- **Command**: `/pull`
+- **Skill**: `chat-pull`, the method; Claude also uses it when you ask what someone said in a chat
+- **Script**: `bin/wa-fetch.sh`, the Periskope REST fallback when the MCP is not connected (needs `curl`; reads defaults from the registry with `jq`)
+
+Last-seen state lives in `~/.claude/wa-state/pull/` (`PULL_STATE_DIR`). The `ds` (Discord) and `em` (email) channels read through an MCP server you connect.
+
 ## What it does
 
 - Resolves a human alias (`team`, `teammate`, `me`) to a chat id from your local registry.
@@ -32,4 +40,4 @@ Periskope returns only messages the requesting number participated in. Set `prov
 
 ## Provider independence
 
-The fetch is the only provider-specific step. The alias resolution, inference, dedup, and slicing are provider-agnostic. To use a different provider, see "Wiring a new provider" in `skills/pull.md`.
+The fetch is the only provider-specific step. The alias resolution, inference, dedup, and slicing are provider-agnostic. To use a different provider, see "Wiring a new provider" in `skills/chat-pull/SKILL.md`.
