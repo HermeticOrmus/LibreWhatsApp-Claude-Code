@@ -1,0 +1,20 @@
+{
+  "name": "pull",
+  "version": "1.0.0",
+  "description": "Read a WhatsApp chat (or a Discord channel or email thread) inside Claude Code: aliases from a local registry, only what is new since the last pull, verbatim quotes.",
+  "author": {
+    "name": "Diego Bodart",
+    "url": "https://github.com/HermeticOrmus"
+  },
+  "homepage": "https://github.com/HermeticOrmus/LibreWhatsApp-Claude-Code",
+  "repository": "https://github.com/HermeticOrmus/LibreWhatsApp-Claude-Code",
+  "license": "MIT",
+  "keywords": [
+    "claude-code",
+    "whatsapp",
+    "read",
+    "messages",
+    "dedup",
+    "registry"
+  ]
+}

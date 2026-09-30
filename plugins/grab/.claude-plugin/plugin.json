@@ -1,0 +1,20 @@
+{
+  "name": "grab",
+  "version": "1.0.0",
+  "description": "Copy the latest shell command, URL, or code block someone sent in a WhatsApp chat straight to your clipboard.",
+  "author": {
+    "name": "Diego Bodart",
+    "url": "https://github.com/HermeticOrmus"
+  },
+  "homepage": "https://github.com/HermeticOrmus/LibreWhatsApp-Claude-Code",
+  "repository": "https://github.com/HermeticOrmus/LibreWhatsApp-Claude-Code",
+  "license": "MIT",
+  "keywords": [
+    "claude-code",
+    "whatsapp",
+    "clipboard",
+    "copy",
+    "commands",
+    "links"
+  ]
+}
