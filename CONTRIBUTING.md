@@ -63,7 +63,7 @@ claude plugin details <name>@libre-whatsapp
 
 To check the send gate without a provider, run `plugins/push/bin/wa-send.sh <chat-id> <message-file>` without `--yes`: it must refuse and exit 2.
 
-CI runs the same checks on every pull request (the marketplace, every plugin, and a clean-config install of all four). If this is your first contribution, the CI run waits until a maintainer approves it.
+CI runs the same checks on every pull request (the marketplace, every plugin, and a clean-config install of all four). A second `grok` job checks that `.grok-plugin/marketplace.json` matches the Claude manifest, validates every plugin with `grok plugin validate`, and installs all four into a clean Grok Build home; after you change `.claude-plugin/marketplace.json`, run `python3 scripts/sync-grok-manifest.py` and commit the file it writes. If this is your first contribution, the CI run waits until a maintainer approves it.
 
 ## Welcome
 
