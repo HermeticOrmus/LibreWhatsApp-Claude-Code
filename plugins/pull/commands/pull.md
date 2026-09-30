@@ -1,3 +1,8 @@
+---
+description: Read a chat into the session, showing only messages that are new since the last pull
+argument-hint: "<wa|ds|em> [target] [count | last <window>] [verbose]"
+---
+
 # Pull messages from a channel
 
 Fetch recent messages from a messaging channel (WhatsApp, Discord, email) and a target, showing only what is new since the last pull.
@@ -10,7 +15,7 @@ Argument shape: `<channel> [<target>] [<count>|last <window>] [verbose]`. Bare i
 
 ## Instructions
 
-Follow the `/pull` skill (`skills/pull.md`):
+Read `${CLAUDE_PLUGIN_ROOT}/skills/chat-pull/SKILL.md` and follow it:
 
 1. Load `~/.claude/wa-registry.json`. If absent, tell the user to copy `registry.example.json` to that path and fill it in, then stop.
 2. Resolve the channel and target. Infer the target from the current conversation if it was not given.
