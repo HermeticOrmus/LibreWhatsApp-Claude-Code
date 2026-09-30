@@ -13,6 +13,7 @@
 # Prints the transcript text to stdout.
 
 set -euo pipefail
+IFS=$'\n\t'
 
 FILE="${1:?audio file path required}"
 LANG_HINT="${2:-${WHISPER_LANG:-}}"
@@ -42,10 +43,16 @@ case "$(basename "$BIN")" in
     "$BIN" "${MODEL_ARG[@]}" "${LANG_ARG[@]}" -nt -f "$FILE"
     ;;
   whisper)
-    # OpenAI Python CLI. Writes alongside; we capture stdout instead.
+    # OpenAI Python CLI. It writes a .txt file; use a private temp dir and print it.
+    OUT_DIR="$(mktemp -d)"
+    trap 'rm -rf "$OUT_DIR"' EXIT
     LANG_ARG=(); [[ -n "$LANG_HINT" ]] && LANG_ARG=(--language "$LANG_HINT")
-    "$BIN" "$FILE" --model "$MODEL" "${LANG_ARG[@]}" --output_format txt --output_dir /tmp \
+    "$BIN" "$FILE" --model "$MODEL" "${LANG_ARG[@]}" --output_format txt --output_dir "$OUT_DIR" \
       >/dev/null 2>&1
-    cat "/tmp/$(basename "${FILE%.*}").txt"
+    cat "$OUT_DIR/$(basename "${FILE%.*}").txt"
+    ;;
+  *)
+    echo "unrecognized Whisper binary: $BIN (expected whisper-cli, main, or whisper)" >&2
+    exit 1
     ;;
 esac

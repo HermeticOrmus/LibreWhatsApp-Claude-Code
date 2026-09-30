@@ -1,6 +1,7 @@
 ---
-name: transcribe
-description: Turn a WhatsApp voice note into text using a local Whisper install, so /pull and /push can read, summarize, or route voice messages. Audio never leaves your machine. Use when a pulled message is a voice note, or when the user asks to transcribe an audio message.
+name: voice-transcribe
+description: "Turns a WhatsApp voice note (or any local audio file) into text with a local Whisper install, so /pull and /push can read, summarize, or reply to voice messages; the audio never leaves the machine. Use when a pulled message is a voice note, or when the user asks to transcribe an audio message or recording."
+user-invocable: false
 ---
 
 # /transcribe — voice note to text, locally
@@ -23,17 +24,18 @@ In practice this is usually invoked by `/pull`: when a pulled WhatsApp message i
 
 ## Step 1: get the audio local
 
-If given a URL, download it to a temp file (`/tmp/wa-voice-<hash>.<ext>`). If given a path, use it directly.
+If given a URL, download it to a private temp file (`mktemp` with the audio's extension, for example `mktemp --suffix=.ogg` on Linux or `mktemp -t wa-voice` on macOS) and delete it when done. If given a path, use it directly.
 
 ## Step 2: transcribe with local Whisper
 
-Run the local transcriber via `plugins/transcribe/bin/wa-transcribe.sh <file> [lang] [model]`. The helper shells to a `whisper` binary on `PATH` (override with `WHISPER_BIN`). It prints the transcript to stdout.
+Run the local transcriber via `${CLAUDE_PLUGIN_ROOT}/bin/wa-transcribe.sh <file> [lang] [model]`. The helper shells to a `whisper` binary on `PATH` (override with `WHISPER_BIN`). It prints the transcript to stdout.
 
 Supported back ends, in preference order, auto-detected by the helper:
 
-- `whisper.cpp` (`whisper-cli` / `main`) — fast, CPU-friendly, no Python.
+- `whisper.cpp` (`whisper-cli` / `main`): fast, CPU-friendly, no Python. Needs a ggml model file: set `WHISPER_MODEL` to its path.
 - OpenAI `whisper` Python CLI.
-- `faster-whisper` if exposed as a CLI.
+
+`faster-whisper` is not detected yet (it is on the roadmap). The helper exits with an error for any other binary name set in `WHISPER_BIN`.
 
 If no Whisper binary is found, say so and point the user at the setup notes in the plugin README. Do not fall back to a cloud transcription service — local-only is the point.
 
