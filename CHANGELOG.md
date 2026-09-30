@@ -1,5 +1,13 @@
 # Changelog
 
+## [Unreleased]
+
+### Added
+
+- A public pantry in `pantry/`: a competitor map, an X mine, a people mine, and a pantry queue of Goal atoms, each with a Done-when anyone can check and none that weakens the draft-first send gate. `pantry/MENU.md` is generated from the queue by the kitchen's `menu.py` and names one atom as up next.
+- Two issue forms: `routing-miss` (Claude picked the wrong plugin or skill, or none) and `plugin-proposal` (a new plugin, skill, agent or command), with matching labels. Both ask reporters to replace real names, numbers and ids.
+- A "Ways to contribute" section at the top of `CONTRIBUTING.md` (Menu items, routing misses, plugin proposals, translations, sharing what you built, and the local test loop, including a check of the send gate) and a Contribute section in the README.
+
 ## [1.0.0] - 2026-09-30
 
 The pack becomes installable, and the parts that only worked through the MCP, or were stubs, now work end to end. Before this release the old `setup.sh` copied folders that Claude Code never loaded, and half of the eight command and skill files had no frontmatter.
