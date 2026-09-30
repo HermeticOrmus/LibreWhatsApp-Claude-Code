@@ -1,0 +1,20 @@
+{
+  "name": "transcribe",
+  "version": "1.0.0",
+  "description": "Transcribe WhatsApp voice notes locally with whisper.cpp or OpenAI Whisper; the audio never leaves your machine.",
+  "author": {
+    "name": "Diego Bodart",
+    "url": "https://github.com/HermeticOrmus"
+  },
+  "homepage": "https://github.com/HermeticOrmus/LibreWhatsApp-Claude-Code",
+  "repository": "https://github.com/HermeticOrmus/LibreWhatsApp-Claude-Code",
+  "license": "MIT",
+  "keywords": [
+    "claude-code",
+    "whatsapp",
+    "whisper",
+    "voice-notes",
+    "local",
+    "speech-to-text"
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "name": "push",
+  "version": "1.0.0",
+  "description": "Draft and send WhatsApp (or Discord or email) messages from Claude Code, consent first: preview, explicit confirmation, credential scan, fan-out, metadata-only audit log.",
+  "author": {
+    "name": "Diego Bodart",
+    "url": "https://github.com/HermeticOrmus"
+  },
+  "homepage": "https://github.com/HermeticOrmus/LibreWhatsApp-Claude-Code",
+  "repository": "https://github.com/HermeticOrmus/LibreWhatsApp-Claude-Code",
+  "license": "MIT",
+  "keywords": [
+    "claude-code",
+    "whatsapp",
+    "send",
+    "draft",
+    "preview",
+    "consent"
+  ]
+}
