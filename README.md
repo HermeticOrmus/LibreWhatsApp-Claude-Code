@@ -69,8 +69,8 @@ Grok Build reads the same plugin folders. Add the marketplace, then install any 
 
 ```bash
 grok plugin marketplace add HermeticOrmus/LibreWhatsApp-Claude-Code
-grok plugin install pull@libre-whatsapp --trust
-grok plugin install push@libre-whatsapp --trust
+grok plugin install pull@LibreWhatsApp-Claude-Code --trust
+grok plugin install push@LibreWhatsApp-Claude-Code --trust
 ```
 
 Grok asks you to trust a plugin before it installs it; `--trust` is that answer. To install one plugin straight from its folder, without the marketplace:
