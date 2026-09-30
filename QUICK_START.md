@@ -22,6 +22,16 @@ cd ~/projects/LibreWhatsApp-Claude-Code
 
 `setup.sh` registers the repo as the `libre-whatsapp` marketplace and installs the four plugins (`pull`, `push`, `grab`, `transcribe`) through the Claude Code CLI. Restart Claude Code afterward. Install a subset with `./setup.sh --only pull,push`; list them with `./setup.sh --list`.
 
+### Install in Grok Build
+
+```bash
+grok plugin marketplace add HermeticOrmus/LibreWhatsApp-Claude-Code
+grok plugin install pull@libre-whatsapp --trust
+grok plugin install push@libre-whatsapp --trust
+```
+
+Or one plugin straight from its folder: `grok plugin install HermeticOrmus/LibreWhatsApp-Claude-Code#plugins/pull --trust`. From a clone, `./setup.sh --grok` installs all four into Grok Build, and the registry below is the same file. Two limits are known and tracked in [LEDGER.md](LEDGER.md): the commands read their skill and helper scripts through `${CLAUDE_PLUGIN_ROOT}`, which Grok Build documents for hooks only, so they have not been verified in a live Grok session yet; and LibreSessionFlow also ships a plugin named `grab`, which a bare `grok plugin uninstall grab` cannot tell apart from this one.
+
 ## 2. Pick a provider
 
 The reference adapter is Periskope, which sits on the official WhatsApp Business API.
