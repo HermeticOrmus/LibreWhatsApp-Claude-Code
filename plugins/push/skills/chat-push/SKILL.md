@@ -1,6 +1,7 @@
 ---
-name: push
-description: Channel-aware message send. Posts a message to a named channel (wa/ds/em) and target (user/chat). Mirrors /pull — same channel codes, same registry aliases. Shows a preview and waits for confirmation by default; --send skips the gate. First wired channel is wa (WhatsApp via a pluggable provider).
+name: chat-push
+description: "Drafts and sends a message to a WhatsApp chat (or a Discord channel or email) from the session, consent first: it composes from the conversation when no text is given, formats for the channel, shows a preview, and sends only after an explicit confirmation, with a credential scan, fan-out to several chats, and a metadata-only audit log. Use when the user wants to reply to, message, notify, or draft something for a chat or person."
+user-invocable: false
 ---
 
 # /push — channel-aware message send
@@ -29,13 +30,13 @@ Bare `/push` with no body composes from the current conversation context.
 
 ## Step 0: load the registry
 
-Read `~/.claude/wa-registry.json` (copy `registry.example.json` from this repo). It holds provider config, target aliases, and optional per-target `style` strings. If missing, tell the user to create it and stop.
+Read `~/.claude/wa-registry.json`, or the file named in `WA_REGISTRY` (copy `registry.example.json` from the repo root). It holds provider config, target aliases, and optional per-target `style` strings. If missing, tell the user to create it and stop.
 
 ## Step 1: resolve channel and target(s)
 
 1. First arg is the channel code.
 2. Args before `--send`/`--dry`/the quoted body are target aliases. Multiple = fan-out.
-3. Resolve aliases against the registry. `reply` reads `<pull-state-dir>/last.json`.
+3. Resolve aliases against the registry. `reply` reads `<pull-state-dir>/last.json` (`PULL_STATE_DIR`, default `~/.claude/wa-state/pull/`).
 4. If a target is not resolvable, ask one targeted question naming recent options.
 
 ## Step 2: compose (when body is absent)
@@ -68,16 +69,16 @@ Confirm: reply "send"   Edit: reply with replacement   Cancel: reply "cancel"
 
 Wait for confirmation. Do not call the send tool yet.
 
-With `--send`: skip the preview, send, print a one-line `sent: <queue-id>` confirmation.
+With `--send`: skip the preview, send, print a one-line `sent: <queue-id>` confirmation. The first send to a target in a session still previews (safety rule 1), and a message suggested in passing ("you should tell them...") is never a send directive: draft it, preview it, and wait.
 
 ## Step 5: send (channel-specific)
 
 ### Channel `wa` (WhatsApp)
 
-Reference adapter — Periskope MCP:
+Reference adapter, the Periskope MCP (the tool is `periskope_send_message`; Claude Code shows it as `mcp__<server>__periskope_send_message`, where `<server>` is the name you gave the MCP server):
 
 ```
-mcp__periskope-whatsapp__periskope_send_message({
+periskope_send_message({
   phone: "<resolved-id>",
   message: "<formatted body>"
 })
@@ -85,23 +86,25 @@ mcp__periskope-whatsapp__periskope_send_message({
 
 Identity: messages send from the provider account's number (`provider.org_phone` in the registry). Recipients see that number's saved name, not "Claude" or any AI. If the content should be attributed to a specific person, put an attribution line in the body.
 
+CLI fallback (no MCP), only after the user confirmed the preview: write the exact formatted body to a temp file (`mktemp`), then run `${CLAUDE_PLUGIN_ROOT}/bin/wa-send.sh <chat-id> <file> --yes`. The script refuses to send without `--yes`, sends from `provider.org_phone`, reads the key from the env var named in `provider.api_key_env`, and prints the API response with the queue id. Delete the temp file afterwards.
+
 Fan-out: loop the send once per target, collect each queue id, roll up into one confirmation.
 
-### Channel `ds` (Discord) — stub
+### Channel `ds` (Discord)
 
-`mcp__discord__discord_send` (per channel) or `discord_reply_to_forum`. Preserve mentions.
+Needs a Discord MCP server connected to Claude Code. Send with that server's send tool, for example `discord_send` (channel id, message), or its forum-reply tool for forum threads. Preserve mentions (`<@id>`). The same preview and confirmation apply. No Discord tool connected: say so and stop.
 
-### Channel `em` (email) — stub
+### Channel `em` (email)
 
-Gmail: `create_draft` then send. Microsoft Graph: `send-mail`. Backend by recipient domain. Subject required.
+Needs an email MCP server or connector. Draft first: create the message as a draft in the user's mailbox (a Gmail-style `create_draft`, or the equivalent draft tool of a Microsoft 365 server) and show the preview with `Subject:` and `Backend:` lines. Send it only on confirmation, and only if the connected server has a send tool; otherwise tell the user the draft is waiting in their mailbox. Subject required: draft one from context and include it in the preview if the user gave none. No mail tool connected: say so and stop.
 
 ## Step 6: post-send
 
 1. Update `<push-state-dir>/last.json` with `{ channel, target_alias, target_id, queue_id, ts }`.
-2. Append a metadata-only line to `<push-state-dir>/log.jsonl` (never the body): `{ "ts", "channel", "target_alias", "target_id", "queue_id", "chars" }`.
+2. Append a metadata-only line to `<push-state-dir>/log.jsonl` (never the body): `{ "ts", "channel", "target_alias", "target_id", "queue_id", "chars", "body_sha256" }`. The hash (`sha256sum` or `shasum -a 256` of the formatted body) lets a later send detect a repeat without storing what was said.
 3. Print the confirmation line.
 
-`<push-state-dir>` defaults to `~/.claude/skills/push/state/`.
+`<push-state-dir>` defaults to `~/.claude/wa-state/push/` (override with `PUSH_STATE_DIR`). Create it on first use.
 
 ## Safety rules
 
@@ -116,11 +119,12 @@ Gmail: `create_draft` then send. Microsoft Graph: `send-mail`. Backend by recipi
 - `PUSH_DEFAULT_CHANNEL` (default `wa`)
 - `PUSH_PREVIEW_MODE` (default `true`; set `false` to make `--send` the default)
 - `PUSH_LONG_MESSAGE_THRESHOLD` (default 3500)
-- `PUSH_STATE_DIR` (default `~/.claude/skills/push/state/`)
+- `PUSH_STATE_DIR` (default `~/.claude/wa-state/push/`)
+- `WA_REGISTRY` (default `~/.claude/wa-registry.json`)
 
 ## Anti-patterns
 
 - Do not call the provider send tool directly when `/push` would do — go through the skill so the audit log captures it.
 - Do not treat a conversational suggestion ("you should tell them...") as a send directive. Wait for explicit confirmation.
 - Do not fan-out broadcast without flagging it in the preview.
-- Do not re-send the same body to the same target without confirmation (the log dedupes).
+- Do not re-send the same body to the same target without confirmation: before sending, compare the body's `body_sha256` with the last log entries for that target, and if it matches say when it was sent and ask again.

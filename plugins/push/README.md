@@ -2,6 +2,14 @@
 
 Channel-aware message send for Claude Code. The write-side counterpart to `/pull`, with a preview-and-confirm gate.
 
+## Contents
+
+- **Command**: `/push`
+- **Skill**: `chat-push`, the method; Claude drafts through it when you ask it to reply to or message someone, and still waits for your confirmation
+- **Script**: `bin/wa-send.sh`, the Periskope REST fallback when the MCP is not connected; it refuses to send without `--yes`, which the skill passes only after you confirm the preview (needs `curl` and `jq`)
+
+The audit log in `~/.claude/wa-state/push/log.jsonl` (`PUSH_STATE_DIR`) keeps metadata and a body hash, never the message. Email (`em`) sends are draft first.
+
 ## What it does
 
 - Resolves an alias to a chat id from your registry (same registry as `/pull`).
