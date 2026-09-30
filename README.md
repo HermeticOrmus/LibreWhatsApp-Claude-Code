@@ -32,6 +32,8 @@ The value here is the workflow logic, not a vendor. The alias registry, the dedu
 | grab | `/grab` | Copy the latest command, URL, or code block from a chat straight to the clipboard. |
 | transcribe | `/transcribe` | Turn a voice note into text with a local Whisper install. Audio never leaves your machine. |
 
+Each plugin ships a slash command and a skill (4 of each), so Claude can also use them when you ask in plain words ("what did the team say?", "draft a reply"). Three helper scripts cover the no-MCP path: `wa-fetch.sh` (read), `wa-send.sh` (send, only with `--yes` after you confirm), and `wa-transcribe.sh` (local Whisper). Nothing is sent without your explicit yes: a "send" reply to the preview, or `--send` typed on the command yourself (and even then the first send to a chat in a session previews).
+
 ## How it fits together
 
 ```
@@ -43,6 +45,25 @@ voice note ──► /transcribe (local Whisper) ──┐
 ```
 
 ## Quick start
+
+### Install from Claude Code
+
+```
+/plugin marketplace add HermeticOrmus/LibreWhatsApp-Claude-Code
+/plugin install pull@libre-whatsapp
+/plugin install push@libre-whatsapp
+```
+
+`grab` and `transcribe` install the same way. From a terminal, the equivalent is:
+
+```bash
+claude plugin marketplace add HermeticOrmus/LibreWhatsApp-Claude-Code
+claude plugin install pull@libre-whatsapp
+```
+
+Or clone the repo and let `setup.sh` register the marketplace and install all four (`./setup.sh --list`, `./setup.sh --only pull,push`, `./setup.sh --uninstall`). This pack has no hooks plugin: nothing reads or sends unless you invoke it.
+
+### From a clone
 
 ```bash
 git clone https://github.com/HermeticOrmus/LibreWhatsApp-Claude-Code.git ~/projects/LibreWhatsApp-Claude-Code
@@ -61,30 +82,35 @@ See [QUICK_START.md](QUICK_START.md) for the full first-run walkthrough, includi
 
 ## The registry
 
-Target resolution lives in `~/.claude/wa-registry.json` on your machine, never in the repo. You copy [`registry.example.json`](registry.example.json) and fill in your own aliases, ids, and provider config. The published skills carry zero real numbers — leaking your contacts is structurally impossible, not just scrubbed. That file is the only place your data lives.
+Target resolution lives in `~/.claude/wa-registry.json` on your machine (or the path in `WA_REGISTRY`), never in the repo. You copy [`registry.example.json`](registry.example.json) and fill in your own aliases, ids, and provider config. The published skills carry zero real numbers: leaking your contacts is structurally impossible, not just scrubbed. That file is the only place your data lives.
 
 ## The provider is yours
 
-The skills call exactly two provider operations: list-messages-in-a-chat and send-message. Periskope is the reference adapter because it sits on the official WhatsApp Business API and exposes both over a clean REST surface and an MCP. It is a paid service. If you would rather run a self-hosted or free provider, you wire it at the same seam — see "Wiring a new provider" in [`plugins/pull/skills/pull.md`](plugins/pull/skills/pull.md). The inference, dedup, slicing, safety, and transcription logic do not change.
+The skills call exactly two provider operations: list-messages-in-a-chat and send-message. Periskope is the reference adapter because it sits on the official WhatsApp Business API and exposes both over a clean REST surface and an MCP. It is a paid service. If you would rather run a self-hosted or free provider, you wire it at the same seam; see "Wiring a new provider" in [`plugins/pull/skills/chat-pull/SKILL.md`](plugins/pull/skills/chat-pull/SKILL.md). The inference, dedup, slicing, safety, and transcription logic do not change.
 
 ## The sender gotcha
 
-The most common wiring mistake, called out here so you avoid it: a provider that aggregates one number's chats only returns messages that number participated in. Ask with the wrong number and you get an empty slice with no error. Set `provider.default_sender_phone` to a number that is actually in the chats you read. Details in [`plugins/pull/skills/pull.md`](plugins/pull/skills/pull.md).
+The most common wiring mistake, called out here so you avoid it: a provider that aggregates one number's chats only returns messages that number participated in. Ask with the wrong number and you get an empty slice with no error. Set `provider.default_sender_phone` to a number that is actually in the chats you read. Details in [`plugins/pull/skills/chat-pull/SKILL.md`](plugins/pull/skills/chat-pull/SKILL.md).
 
 ## Compatibility
 
-- Claude Code 1.x+
+- Claude Code 2.1 or later (plugin marketplaces; tested on 2.1.285)
 - Linux and macOS. Windows via WSL2 should work but is untested.
-- Clipboard for `/grab`: `wl-copy`, `xclip`/`xsel`, or `pbcopy`.
+- Clipboard for `/grab`: `wl-copy`, `xclip`/`xsel`, `pbcopy`, or `clip.exe` (WSL).
+- `curl` and `jq` for the no-MCP fallbacks.
 - Local Whisper for `/transcribe`: whisper.cpp or openai-whisper.
 
 ## Sibling repos
 
 Part of the Libre-*-Claude-Code family. The general-purpose `/grab` and `/share-prompt` live in [LibreSessionFlow](https://github.com/HermeticOrmus/LibreSessionFlow-Claude-Code); the `/grab` here is the WhatsApp-specific variant.
 
+## Feedback
+
+Starred this? Tell us what worked and what is missing: [open a feedback issue](https://github.com/HermeticOrmus/LibreWhatsApp-Claude-Code/issues/new?template=feedback.yml). Every piece of feedback gets an answer, and changes that come from it are credited in the release notes.
+
 ## Contributing
 
-PRs welcome, especially: provider adapters beyond Periskope, the Discord and email channel stubs filled in, and transcription back ends. See [CONTRIBUTING.md](CONTRIBUTING.md).
+PRs welcome, especially: provider adapters beyond Periskope, reports from running the Discord and email channels against real servers, and transcription back ends. See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## License
 

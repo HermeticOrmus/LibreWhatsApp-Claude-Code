@@ -3,7 +3,7 @@
 
   "provider": {
     "type": "periskope",
-    "_note_type": "The reference adapter is 'periskope'. Any provider that exposes list-messages and send-message can be wired the same way (see plugins/pull/skills/pull.md, section 'Wiring a new provider'). The logic in these skills is provider-agnostic; the provider is yours to choose.",
+    "_note_type": "The reference adapter is 'periskope'. Any provider that exposes list-messages and send-message can be wired the same way (see plugins/pull/skills/chat-pull/SKILL.md, section 'Wiring a new provider'). The logic in these skills is provider-agnostic; the provider is yours to choose.",
     "api_key_env": "PERISKOPE_API_KEY",
     "org_phone": "<YOUR_WHATSAPP_NUMBER>",
     "_note_org_phone": "The number your provider account sends from. Recipients see this number's saved name. Digits only, country code, no +.",

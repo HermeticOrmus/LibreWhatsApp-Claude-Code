@@ -14,7 +14,7 @@ Check it exists under `targets` in `~/.claude/wa-registry.json` and that the `id
 
 ## Pull shows everything every time, never "new only"
 
-State is not being written, or the state dir differs between runs. Check `PULL_STATE_DIR` is consistent and the path is writable. Default is `~/.claude/skills/pull/state/`.
+State is not being written, or the state dir differs between runs. Check `PULL_STATE_DIR` is consistent and the path is writable. Default is `~/.claude/wa-state/pull/` (before 1.0.0 it was `~/.claude/skills/pull/state/`; move those files over to keep your last-seen positions).
 
 ## A pulled voice note has no text
 
@@ -31,3 +31,19 @@ No clipboard tool was found. Install `wl-copy` (Wayland), `xclip` or `xsel` (X11
 ## Provider key not picked up by the CLI fallback
 
 `wa-fetch.sh` reads the env var named in `provider.api_key_env` (default `PERISKOPE_API_KEY`). Export it in the shell that runs Claude Code. The MCP path reads its key from the MCP config instead.
+
+## Plugins not loaded
+
+```bash
+claude plugin list | grep '@libre-whatsapp'
+```
+
+Installed with an older `setup.sh` that copied folders into `~/.claude/plugins/libre-whatsapp-*`? Claude Code never loaded those copies. Remove them, then install through the marketplace (`./setup.sh`, or `/plugin install pull@libre-whatsapp` inside Claude Code).
+
+## /push without the MCP says "refusing to send without --yes"
+
+That is the confirm gate working. `wa-send.sh` sends only when called with `--yes`, which the push skill passes after you reply "send" to the preview.
+
+## `ds` or `em` says no tool is connected
+
+The Discord and email channels run through an MCP server you connect (a Discord server; a Gmail connector or a Microsoft 365 server). Connect one with `claude mcp add`, restart, and add the targets to your registry with `"channel": "ds"` or `"channel": "em"`.

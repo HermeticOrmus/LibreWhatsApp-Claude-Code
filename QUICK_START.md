@@ -4,13 +4,23 @@ From clone to reading a chat in about five minutes.
 
 ## 1. Install the plugins
 
+Inside Claude Code:
+
+```
+/plugin marketplace add HermeticOrmus/LibreWhatsApp-Claude-Code
+/plugin install pull@libre-whatsapp
+/plugin install push@libre-whatsapp
+```
+
+Or from a clone:
+
 ```bash
 git clone https://github.com/HermeticOrmus/LibreWhatsApp-Claude-Code.git ~/projects/LibreWhatsApp-Claude-Code
 cd ~/projects/LibreWhatsApp-Claude-Code
 ./setup.sh
 ```
 
-`setup.sh` copies the four plugins into `~/.claude/plugins/` as `libre-whatsapp-pull`, `-push`, `-grab`, `-transcribe`. Restart Claude Code afterward. Install a subset with `./setup.sh --only pull,push`.
+`setup.sh` registers the repo as the `libre-whatsapp` marketplace and installs the four plugins (`pull`, `push`, `grab`, `transcribe`) through the Claude Code CLI. Restart Claude Code afterward. Install a subset with `./setup.sh --only pull,push`; list them with `./setup.sh --list`.
 
 ## 2. Pick a provider
 
@@ -18,9 +28,9 @@ The reference adapter is Periskope, which sits on the official WhatsApp Business
 
 - Sign up for Periskope and connect your WhatsApp number.
 - Get an API key.
-- Either wire the Periskope MCP into Claude Code, or set `PERISKOPE_API_KEY` in your shell so the CLI fallback works.
+- Either wire the Periskope MCP into Claude Code, or set `PERISKOPE_API_KEY` in your shell so the CLI fallbacks (`wa-fetch.sh` for reading, `wa-send.sh` for confirmed sends) work. They need `curl` and `jq`.
 
-Prefer a different provider? Any service that can list a chat's messages and send a message fits. See "Wiring a new provider" in `plugins/pull/skills/pull.md`.
+Prefer a different provider? Any service that can list a chat's messages and send a message fits. See "Wiring a new provider" in `plugins/pull/skills/chat-pull/SKILL.md`.
 
 ## 3. Build your registry
 
