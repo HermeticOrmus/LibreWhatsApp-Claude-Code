@@ -1,3 +1,8 @@
+---
+description: Draft a message to a chat and send it only after you confirm the preview
+argument-hint: "<wa|ds|em> <target...> [--send | --dry] [message]"
+---
+
 # Send a message to a channel
 
 Send a message to a messaging channel (WhatsApp, Discord, email) and target, with a preview-and-confirm gate by default.
@@ -10,7 +15,7 @@ Argument shape: `<channel> <target> [--send|--dry] [<message body>]`. `reply` ta
 
 ## Instructions
 
-Follow the `/push` skill (`skills/push.md`):
+Read `${CLAUDE_PLUGIN_ROOT}/skills/chat-push/SKILL.md` and follow it:
 
 1. Load `~/.claude/wa-registry.json`. If absent, tell the user to set it up and stop.
 2. Resolve the channel and target(s). Multiple targets means fan-out.
