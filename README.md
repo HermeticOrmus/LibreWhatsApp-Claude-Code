@@ -63,6 +63,24 @@ claude plugin install pull@libre-whatsapp
 
 Or clone the repo and let `setup.sh` register the marketplace and install all four (`./setup.sh --list`, `./setup.sh --only pull,push`, `./setup.sh --uninstall`). This pack has no hooks plugin: nothing reads or sends unless you invoke it.
 
+### Install in Grok Build
+
+Grok Build reads the same plugin folders. Add the marketplace, then install any of the four by name:
+
+```bash
+grok plugin marketplace add HermeticOrmus/LibreWhatsApp-Claude-Code
+grok plugin install pull@libre-whatsapp --trust
+grok plugin install push@libre-whatsapp --trust
+```
+
+Grok asks you to trust a plugin before it installs it; `--trust` is that answer. To install one plugin straight from its folder, without the marketplace:
+
+```bash
+grok plugin install HermeticOrmus/LibreWhatsApp-Claude-Code#plugins/pull --trust
+```
+
+From a clone, `./setup.sh --grok` installs all four into Grok Build, with the same `--only`, `--list`, and `--uninstall` options. The registry and state files are the same ones Claude Code uses. Two limits are known and tracked in [LEDGER.md](LEDGER.md): the commands read their skill and helper scripts through `${CLAUDE_PLUGIN_ROOT}`, which Grok Build documents for hooks only, so they have not been verified in a live Grok session yet; and LibreSessionFlow also ships a plugin named `grab`, which a bare `grok plugin uninstall grab` cannot tell apart from this one.
+
 ### From a clone
 
 ```bash
@@ -110,6 +128,7 @@ Starred this? Tell us what worked and what is missing: [open a feedback issue](h
 
 ## Contribute
 
+- Cracks we found and sealed: [LEDGER.md](LEDGER.md). The open rows are work anyone can pick up.
 - Pick up the next piece of work from the [Menu](pantry/MENU.md): each item has a Done-when anyone can check, keeps sending draft first and consent first, and cites the research in [`pantry/`](pantry/).
 - New here? Start with the [good first issues](https://github.com/HermeticOrmus/LibreWhatsApp-Claude-Code/contribute).
 - Claude picked the wrong plugin? File a [routing miss](https://github.com/HermeticOrmus/LibreWhatsApp-Claude-Code/issues/new?template=routing-miss.yml). Want a new plugin? Open a [plugin proposal](https://github.com/HermeticOrmus/LibreWhatsApp-Claude-Code/issues/new?template=plugin-proposal.yml). Anything else goes in a [feedback issue](https://github.com/HermeticOrmus/LibreWhatsApp-Claude-Code/issues/new?template=feedback.yml).
