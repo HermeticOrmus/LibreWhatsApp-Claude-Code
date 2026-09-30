@@ -1,0 +1,41 @@
+{
+  "name": "libre-whatsapp",
+  "owner": {
+    "name": "Diego Bodart",
+    "url": "https://github.com/HermeticOrmus"
+  },
+  "metadata": {
+    "description": "WhatsApp inside Claude Code: pull a chat, see only what is new, draft replies behind a confirm gate, grab commands to the clipboard, transcribe voice notes locally.",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "grab",
+      "description": "Copy the latest shell command, URL, or code block someone sent in a WhatsApp chat straight to your clipboard.",
+      "version": "1.0.0",
+      "category": "developer-tools",
+      "source": "./plugins/grab"
+    },
+    {
+      "name": "pull",
+      "description": "Read a WhatsApp chat (or a Discord channel or email thread) inside Claude Code: aliases from a local registry, only what is new since the last pull, verbatim quotes.",
+      "version": "1.0.0",
+      "category": "developer-tools",
+      "source": "./plugins/pull"
+    },
+    {
+      "name": "push",
+      "description": "Draft and send WhatsApp (or Discord or email) messages from Claude Code, consent first: preview, explicit confirmation, credential scan, fan-out, metadata-only audit log.",
+      "version": "1.0.0",
+      "category": "developer-tools",
+      "source": "./plugins/push"
+    },
+    {
+      "name": "transcribe",
+      "description": "Transcribe WhatsApp voice notes locally with whisper.cpp or OpenAI Whisper; the audio never leaves your machine.",
+      "version": "1.0.0",
+      "category": "developer-tools",
+      "source": "./plugins/transcribe"
+    }
+  ]
+}
