@@ -1,3 +1,8 @@
+---
+description: Copy the latest command, URL, or code block from a WhatsApp chat to the clipboard
+argument-hint: "[target] [cmd | link | code]"
+---
+
 # Grab chat content to the clipboard
 
 Extract the latest shell command, URL, or code block from a WhatsApp chat and copy it to the system clipboard.
@@ -10,7 +15,7 @@ Argument shape: `[<target>] [cmd|link|code]`. Bare invocation uses the last `/pu
 
 ## Instructions
 
-Follow the `/grab` skill (`skills/grab.md`):
+Read `${CLAUDE_PLUGIN_ROOT}/skills/chat-grab/SKILL.md` and follow it:
 
 1. Resolve the target from the registry, or the last `/pull` target.
 2. Fetch the last ~20 messages for that target.
