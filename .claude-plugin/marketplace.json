@@ -6,7 +6,7 @@
   },
   "metadata": {
     "description": "WhatsApp inside Claude Code: pull a chat, see only what is new, draft replies behind a confirm gate, grab commands to the clipboard, transcribe voice notes locally.",
-    "version": "1.0.0"
+    "version": "1.1.0"
   },
   "plugins": [
     {
